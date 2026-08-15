@@ -12,7 +12,7 @@ from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "index.html"
-EXPECTED_CODE_URL = "https://github.com/jianxiapyh/Boba/tree/Boba_Batched"
+EXPECTED_CODE_URL = "https://github.com/jianxiapyh/Boba-Public"
 EXPECTED_FAVICON = "favicon.png"
 EXPECTED_VIDEO_SOURCES = {
     "assets/Boba_3D_demo.mp4",
