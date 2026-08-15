@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Boba — Batched Simulation for Physics-Based Gaussian Digital Twins</title>
+    <meta
+      name="description"
+      content="Boba is the first batched simulator for physics-based Gaussian digital twins, reaching 3,310 FPS on an RTX 4090 for scalable robot planning and interactive XR."
+    />
+    <meta name="theme-color" content="#0b2633" />
+    <link rel="canonical" href="https://jianxiapyh.github.io/Boba-project-page/" />
+    <link rel="icon" href="favicon.png" type="image/png" sizes="256x256" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <link rel="preload" href="assets/images/teaser.png" as="image" type="image/png" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Boba: Batched Simulation for Physics-Based Gaussian Digital Twins" />
+    <meta
+      property="og:description"
+      content="High-throughput physics-based Gaussian digital twins for real-time XR and scalable robot planning. ECCV 2026."
+    />
+    <meta property="og:url" content="https://jianxiapyh.github.io/Boba-project-page/" />
+    <meta
+      property="og:image"
+      content="https://jianxiapyh.github.io/Boba-project-page/assets/images/social-preview.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Boba: Batched Simulation for Physics-Based Gaussian Digital Twins" />
+    <meta
+      name="twitter:description"
+      content="One physical twin. Many parallel rollouts. One GPU. ECCV 2026."
+    />
+    <meta
+      name="twitter:image"
+      content="https://jianxiapyh.github.io/Boba-project-page/assets/images/social-preview.jpg"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ScholarlyArticle",
+        "name": "Boba: Batched Simulation for Physics-Based Gaussian Digital Twins",
+        "author": [
+          { "@type": "Person", "name": "Yihan Pang" },
+          { "@type": "Person", "name": "Hanxiao Jiang" },
+          { "@type": "Person", "name": "Sushant Kondguli" },
+          { "@type": "Person", "name": "Sarita Adve" },
+          { "@type": "Person", "name": "Shenlong Wang" }
+        ],
+        "datePublished": "2026",
+        "isPartOf": { "@type": "PublicationEvent", "name": "ECCV 2026" },
+        "url": "https://jianxiapyh.github.io/Boba-project-page/",
+        "image": "https://jianxiapyh.github.io/Boba-project-page/assets/images/social-preview.jpg",
+        "codeRepository": "https://github.com/jianxiapyh/Boba/tree/Boba_Batched"
+      }
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header" data-header>
+      <nav class="nav shell" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="Boba home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Boba</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="nav-links"
+          data-nav-toggle
+        >
+          <span class="sr-only">Toggle navigation</span>
+          <span></span><span></span>
+        </button>
+
+        <div class="nav-links" id="nav-links" data-nav-links>
+          <a href="#overview">Overview</a>
+          <a href="#method">Method</a>
+          <a href="#deployments">Deployments</a>
+          <a href="#results">Results</a>
+          <a href="#applications">Applications</a>
+          <a href="#citation">Citation</a>
+          <a class="nav-paper" href="assets/Boba_ECCV.pdf" target="_blank" rel="noreferrer">Paper</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="top">
+        <div class="hero-grid shell">
+          <div class="hero-copy">
+            <div class="venue-pill"><span aria-hidden="true"></span> ECCV 2026</div>
+            <p class="hero-kicker">One physical twin. Many parallel rollouts. One GPU.</p>
+            <h1>
+              <span>Boba:</span> Batched Simulation for Physics-Based Gaussian Digital Twins
+            </h1>
+
+            <div class="authors" aria-label="Authors">
+              <a href="https://orcid.org/0000-0003-0524-6934" target="_blank" rel="noreferrer">Yihan Pang<sup>1</sup></a>
+              <a href="https://orcid.org/0000-0001-6245-361X" target="_blank" rel="noreferrer">Hanxiao Jiang<sup>2</sup></a>
+              <a href="https://orcid.org/0000-0002-7295-4626" target="_blank" rel="noreferrer">Sushant Kondguli<sup>3</sup></a>
+              <a href="https://orcid.org/0000-0002-3403-5119" target="_blank" rel="noreferrer">Sarita Adve<sup>1</sup></a>
+              <a href="https://orcid.org/0000-0002-7984-266X" target="_blank" rel="noreferrer">Shenlong Wang<sup>1</sup></a>
+            </div>
+
+            <div class="affiliations">
+              <span><sup>1</sup> University of Illinois Urbana-Champaign</span>
+              <span><sup>2</sup> Columbia University</span>
+              <span><sup>3</sup> Meta Reality Labs Research</span>
+            </div>
+
+            <p class="hero-summary">
+              Boba co-designs physics, Gaussian deformation, and rendering for batched execution—turning one reconstructed deformable object into many independent, high-fidelity simulation rollouts.
+            </p>
+
+            <div class="hero-actions" aria-label="Paper resources">
+              <a class="button button-primary" href="assets/Boba_ECCV.pdf" target="_blank" rel="noreferrer">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l4 4v16H6zM14 2v5h5M9 13h6M9 17h6" /></svg>
+                Paper
+              </a>
+              <a
+                class="button button-secondary"
+                href="https://github.com/jianxiapyh/Boba/tree/Boba_Batched"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18c-4.5 1.4-4.5-2.3-6.3-2.8m12.6 5.6v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.7-1.4 5.7-6.2A4.8 4.8 0 0 0 19.2 6a4.5 4.5 0 0 0-.1-3.1s-1-.3-3.3 1.2a11.5 11.5 0 0 0-6 0C7.5 2.6 6.5 2.9 6.5 2.9A4.5 4.5 0 0 0 6.4 6a4.8 4.8 0 0 0-1.3 3.3c0 4.8 2.9 5.9 5.7 6.2-.4.4-.7.8-.8 1.5v3.8" /></svg>
+                Source Code
+              </a>
+              <a class="button button-quiet" href="#citation">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5H4v14h12v-4M9 15l11-11M14 4h6v6" /></svg>
+                BibTeX
+              </a>
+            </div>
+          </div>
+
+          <aside class="hero-signal" aria-label="Headline result">
+            <div class="signal-orbit" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <p class="signal-label">Average aggregate throughput</p>
+            <p class="signal-number">3,310</p>
+            <p class="signal-unit">frames per second</p>
+            <div class="signal-rule"></div>
+            <p class="signal-context">Boba-Batched · RTX 4090</p>
+          </aside>
+        </div>
+
+        <div class="teaser-wrap shell">
+          <figure class="paper-figure teaser-card">
+            <img
+              src="assets/images/teaser.png"
+              width="2960"
+              height="1535"
+              alt="Boba overview showing a physical digital twin, many batched simulations, XR and robot-manipulation applications, and accuracy, throughput, and latency results."
+            />
+            <figcaption>
+              <strong>Efficient and high-throughput physical digital twins.</strong>
+              Boba preserves simulation fidelity while accelerating single-instance execution and scaling many independent rollouts on one GPU.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="metrics-band" aria-label="Key results">
+        <div class="metrics shell">
+          <article>
+            <p class="metric-value">&gt;10×</p>
+            <p class="metric-label">single-instance speedup</p>
+            <p class="metric-detail">over PhysTwin on embedded and desktop GPUs</p>
+          </article>
+          <article>
+            <p class="metric-value">16.2×</p>
+            <p class="metric-label">aggregate throughput</p>
+            <p class="metric-detail">over optimized single-instance execution on RTX 4090</p>
+          </article>
+          <article>
+            <p class="metric-value">13.2×</p>
+            <p class="metric-label">lower XR latency</p>
+            <p class="metric-detail">Boba-Distributed versus PhysTwin on Orin</p>
+          </article>
+          <article>
+            <p class="metric-value">26×–&gt;2,000×</p>
+            <p class="metric-label">faster predictive control</p>
+            <p class="metric-detail">from rope to matched self-collision cloth planning*</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section shell" id="overview">
+        <div class="section-heading">
+          <p class="section-kicker">Overview</p>
+          <h2>High-fidelity twins should scale like simulations.</h2>
+          <p class="section-lede">
+            Existing Gaussian physical twins deliver realistic appearance and dynamics, but execute one instance at a time. Boba makes parallel rollouts a first-class systems problem.
+          </p>
+        </div>
+
+        <div class="abstract-layout">
+          <article class="abstract-copy">
+            <h3>Abstract</h3>
+            <p>
+              Digital twins replicate the appearance and physical behavior of real-world objects for interactive simulation in XR, robotics, and gaming. While neural representations such as 3D Gaussians enable high-fidelity twins reconstructed from images, existing systems simulate only one instance at a time and barely reach real-time performance, making large-scale rollout evaluation impractical.
+            </p>
+            <p>
+              We present <strong>Boba</strong>, the first batched simulator for physics-based Gaussian digital twins. Boba separates the static twin template from dynamic simulation state and co-designs physics, deformation, and rendering/visualization for batched execution. Compact surrogate spring–mass models, mixed-precision Gaussian skinning, memory-efficient execution, and shared-memory-aware batching reduce compute, memory traffic, and synchronization overhead.
+            </p>
+            <p>
+              Boba achieves over 10× single-instance speedup on XR-class hardware, scales to 3,310 FPS on RTX 4090, and substantially accelerates predictive control for deformable-object manipulation—supporting both power-constrained XR and scalable robot planning.
+            </p>
+          </article>
+
+          <aside class="idea-card">
+            <p class="idea-index">Core idea</p>
+            <h3>Share the template.<br />Separate the state.</h3>
+            <p>
+              Spring topology, rest geometry, Gaussian primitives, and skinning metadata are shared. Each rollout stores only the dynamic state that actually changes.
+            </p>
+            <div class="batch-diagram">
+              <svg
+                class="core-idea-diagram"
+                viewBox="0 0 620 215"
+                role="img"
+                aria-labelledby="core-diagram-title core-diagram-desc"
+              >
+                <title id="core-diagram-title">Shared template with independent simulation states</title>
+                <desc id="core-diagram-desc">One shared twin template feeds State 1, State 2, and State N through three separate arrows.</desc>
+                <defs>
+                  <marker id="core-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                    <path d="M 0 0 L 10 5 L 0 10 z" />
+                  </marker>
+                </defs>
+                <rect class="core-template" x="20" y="10" width="580" height="60" rx="15" />
+                <text class="core-template-label" x="310" y="41">Shared twin template</text>
+                <path class="core-connector" d="M 310 70 V 108 M 105 108 H 515" />
+                <path class="core-arrow" d="M 105 108 V 143" />
+                <path class="core-arrow" d="M 310 108 V 143" />
+                <path class="core-arrow" d="M 515 108 V 143" />
+                <rect class="core-state" x="20" y="145" width="170" height="60" rx="12" />
+                <rect class="core-state" x="225" y="145" width="170" height="60" rx="12" />
+                <rect class="core-state" x="430" y="145" width="170" height="60" rx="12" />
+                <text class="core-state-label" x="105" y="176">State 1</text>
+                <text class="core-state-label" x="310" y="176">State 2</text>
+                <text class="core-state-label" x="515" y="176">State N</text>
+              </svg>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section section-tint" id="method">
+        <div class="shell">
+          <div class="section-heading">
+            <p class="section-kicker">Method</p>
+            <h2>A model–system co-design from physics to pixels.</h2>
+            <p class="section-lede">
+              Boba optimizes the complete digital-twin path and adds batching-aware memory layouts and scheduling where conventional process replication breaks down.
+            </p>
+          </div>
+
+          <figure class="paper-figure method-figure">
+            <img
+              src="assets/images/method.png"
+              width="4654"
+              height="1690"
+              loading="lazy"
+              alt="Boba architecture diagram separating shared assets from per-worker physical state and digital twin simulators, alongside single-instance optimizations."
+            />
+            <figcaption>
+              Shared static assets feed independent workers, while the optimized single-instance path accelerates simulation, deformation, and visualization.
+            </figcaption>
+          </figure>
+
+          <div class="method-cards">
+            <article>
+              <span class="card-number">01</span>
+              <h3>Compact physics</h3>
+              <p>Surrogate spring–mass models reproduce dense-system behavior with substantially less compute and memory.</p>
+            </article>
+            <article>
+              <span class="card-number">02</span>
+              <h3>Efficient deformation</h3>
+              <p>Mixed-precision Gaussian skinning and memory-traffic-aware execution accelerate per-frame updates.</p>
+            </article>
+            <article>
+              <span class="card-number">03</span>
+              <h3>Template sharing</h3>
+              <p>Static twin assets are stored once while each simulation retains an independent dynamic state.</p>
+            </article>
+            <article>
+              <span class="card-number">04</span>
+              <h3>Contention-free batching</h3>
+              <p>Shared-memory-aware layouts and atomic-free scheduling turn GPU capacity into sustained throughput.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section deployment-section" id="deployments">
+        <div class="shell">
+          <div class="section-heading">
+            <p class="section-kicker">Deployment variants</p>
+            <h2>Three configurations. One optimized core.</h2>
+          </div>
+
+          <figure class="paper-figure deployment-figure">
+            <img
+              src="assets/images/deployment-variants.png"
+              width="4045"
+              height="2070"
+              loading="lazy"
+              alt="Supplemental Figure 8 comparing Boba-Local, Boba-Distributed, and Boba-Batched deployment pipelines."
+            />
+            <figcaption>
+              <strong>Supplemental Fig. 8 — Boba system variants.</strong> Boba-Local keeps the full pipeline on one machine; Boba-Distributed splits simulation and skinning from edge rendering; Boba-Batched executes many independent states in one GPU pipeline.
+            </figcaption>
+          </figure>
+
+          <div class="deployment-cards" aria-label="Deployment variant summaries">
+            <article>
+              <span>01</span>
+              <h3>Boba-Local</h3>
+              <p>Complete single-instance execution on an edge device or workstation. On XR-class Orin, it reaches 30.8 FPS at 32.5 ms—a 10.2× latency improvement over PhysTwin.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Boba-Distributed</h3>
+              <p>Server simulation and skinning with edge rendering. On XR-class Orin, it achieves 39.8 FPS at 25.1 ms—a 1.3× latency improvement and 22.2% lower device dynamic power than Boba-Local.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Boba-Batched</h3>
+              <p>A shared GPU pipeline over many independent states. On RTX 4090, it reaches 3,309.9 FPS aggregate throughput—16.2× optimized single-instance execution on the same GPU.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section shell" id="results">
+        <div class="section-heading split-heading">
+          <div>
+              <p class="section-kicker">Results</p>
+              <h2>Fast locally. Power-efficient at the edge. Scalable in batches.</h2>
+          </div>
+          <p>
+            Boba-Distributed gives the best XR edge latency–power trade-off, Boba-Local maximizes raw single-instance desktop speed, and Boba-Batched maximizes aggregate throughput.
+          </p>
+        </div>
+
+        <div class="result-callouts">
+          <article class="result-callout result-primary">
+            <p class="result-value">3,309.9</p>
+            <p class="result-unit">FPS</p>
+            <h3>Boba-Batched on RTX 4090</h3>
+            <p>Average of the best sustained aggregate throughput over full runs across evaluated scenarios.</p>
+          </article>
+          <article class="result-callout result-distributed">
+            <p class="result-value">39.8</p>
+            <p class="result-unit">FPS · 25.1 ms</p>
+            <h3>Boba-Distributed for XR</h3>
+            <p>1.3× latency improvement over Boba-Local on XR-class Orin, reducing end-to-end latency from 32.5 ms to 25.1 ms.</p>
+          </article>
+          <article class="result-callout result-power">
+            <p class="result-value">−22.2%</p>
+            <p class="result-unit">Device dynamic power</p>
+            <h3>Boba-Distributed on XR-class Orin</h3>
+            <p>4.76 W versus 6.11 W for Boba-Local on the same edge device.</p>
+          </article>
+          <article class="result-callout result-local">
+            <p class="result-value">204.5</p>
+            <p class="result-unit">FPS</p>
+            <h3>Boba-Local on RTX 4090</h3>
+            <p>12.1× faster than the same-hardware PhysTwin baseline.</p>
+          </article>
+          <article class="result-callout result-local">
+            <p class="result-value">30.8</p>
+            <p class="result-unit">FPS</p>
+            <h3>Boba-Local on XR-class Orin</h3>
+            <p>Real-time local execution at an approximately 15 W embedded compute budget.</p>
+          </article>
+        </div>
+
+        <div class="figure-pair">
+          <figure class="paper-figure">
+            <div class="result-figure-media">
+              <img
+                src="assets/images/throughput.png"
+                width="3093"
+                height="1384"
+                loading="lazy"
+                alt="Throughput chart showing gains from Boba optimizations through batched execution."
+                data-zoomable
+              />
+            </div>
+            <figcaption><strong>System throughput.</strong> Single-instance optimization establishes a fast base; batched execution scales it to thousands of frames per second. <span class="figure-action">Click to enlarge.</span></figcaption>
+          </figure>
+          <figure class="paper-figure">
+            <div class="result-figure-media">
+              <img
+                src="assets/images/deployment.png"
+                width="3399"
+                height="1056"
+                loading="lazy"
+                alt="Latency and incremental-power comparison across PhysTwin, Boba-Local, and Boba-Distributed configurations."
+                data-zoomable
+              />
+            </div>
+            <figcaption><strong>Deployment trade-offs.</strong> Boba-Distributed reaches 25.1 ms while reducing device dynamic power to 4.76 W. <span class="figure-action">Click to enlarge.</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="fidelity-block">
+          <div class="fidelity-heading">
+            <div>
+              <p class="section-kicker">Fidelity</p>
+              <h3>Acceleration without abandoning the twin.</h3>
+            </div>
+            <p>
+              Across reconstructed motion and held-out future prediction, Boba remains visually consistent with real observations and the PhysTwin baseline.
+            </p>
+          </div>
+          <figure class="paper-figure fidelity-figure">
+            <img
+              src="assets/images/fidelity.png"
+              width="3918"
+              height="3322"
+              loading="lazy"
+              alt="Camera-ready qualitative results comparing real observations, PhysTwin, and Boba for reconstruction, resimulation, and future prediction of a plush toy, rope, and cloth."
+              data-zoomable
+            />
+            <figcaption>
+              <strong>Qualitative results.</strong> Despite substantial acceleration, Boba closely matches the PhysTwin baseline and real observations across reconstruction, resimulation, and future rollouts. <span class="figure-action">Click to enlarge.</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section section-dark" id="applications">
+        <div class="shell">
+          <div class="section-heading split-heading light-heading">
+            <div>
+              <p class="section-kicker">Applications</p>
+              <h2>Planning, interaction, and learning.</h2>
+            </div>
+            <p>
+              The main paper and supplement demonstrate Boba across robot planning, immersive XR interaction, and reinforcement learning.
+            </p>
+          </div>
+
+          <article class="application-feature xr-feature">
+            <div class="demo-video-wrap">
+              <video
+                controls
+                playsinline
+                preload="metadata"
+                poster="assets/images/3d-demo-poster.jpg"
+                aria-label="Immersive XR rope-manipulation demonstration"
+              >
+                <source src="assets/Boba_3D_demo.mp4" type="video/mp4" />
+                Your browser cannot play this video. <a href="assets/Boba_3D_demo.mp4">Download the MP4 demo</a>.
+              </video>
+            </div>
+            <div class="application-copy">
+              <p class="application-label">Immersive XR · Supplement</p>
+              <h3>A complete interactive 3D application.</h3>
+              <p>
+                A Quest 3 user manipulates a simulated Gaussian physical twin inside a stereo reconstructed scene. The workstation handles simulation, skinning, rendering, composition, and application logic while streaming the composed views to the headset.
+              </p>
+              <a class="text-link" href="assets/Boba_3D_demo.mp4">Download demo video <span aria-hidden="true">↓</span></a>
+            </div>
+          </article>
+
+          <article class="application-feature planning-feature">
+            <div class="planning-demos" aria-label="Model-based motion-planning demonstrations">
+              <div class="planning-demo">
+                <div class="planning-demo-heading">
+                  <p>Cloth planning</p>
+                  <span>Target and execution</span>
+                </div>
+                <div class="planning-demo-grid">
+                  <figure class="planning-demo-panel">
+                    <img
+                      src="assets/planning/cloth-target.png"
+                      width="1908"
+                      height="1080"
+                      loading="lazy"
+                      alt="Target cloth configuration for model-based motion planning."
+                    />
+                    <figcaption>Target</figcaption>
+                  </figure>
+                  <figure class="planning-demo-panel">
+                    <video controls muted loop playsinline preload="metadata" data-auto-demo aria-label="Cloth planning from the robot view">
+                      <source src="assets/planning/cloth-robot-view.mp4" type="video/mp4" />
+                      Your browser cannot play this video. <a href="assets/planning/cloth-robot-view.mp4">Download the robot-view clip</a>.
+                    </video>
+                    <figcaption>Robot view</figcaption>
+                  </figure>
+                  <figure class="planning-demo-panel">
+                    <video controls muted loop playsinline preload="metadata" data-auto-demo aria-label="Cloth planning from the third-person view">
+                      <source src="assets/planning/cloth-third-person.mp4" type="video/mp4" />
+                      Your browser cannot play this video. <a href="assets/planning/cloth-third-person.mp4">Download the third-person clip</a>.
+                    </video>
+                    <figcaption>Third-person view</figcaption>
+                  </figure>
+                </div>
+              </div>
+
+              <div class="planning-demo">
+                <div class="planning-demo-heading">
+                  <p>Rope planning</p>
+                  <span>Target and execution</span>
+                </div>
+                <div class="planning-demo-grid">
+                  <figure class="planning-demo-panel">
+                    <img
+                      src="assets/planning/rope-target.png"
+                      width="1908"
+                      height="1080"
+                      loading="lazy"
+                      alt="Target rope configuration for model-based motion planning."
+                    />
+                    <figcaption>Target</figcaption>
+                  </figure>
+                  <figure class="planning-demo-panel">
+                    <video controls muted loop playsinline preload="metadata" data-auto-demo aria-label="Rope planning from the robot view">
+                      <source src="assets/planning/rope-robot-view.mp4" type="video/mp4" />
+                      Your browser cannot play this video. <a href="assets/planning/rope-robot-view.mp4">Download the robot-view clip</a>.
+                    </video>
+                    <figcaption>Robot view</figcaption>
+                  </figure>
+                  <figure class="planning-demo-panel">
+                    <video controls muted loop playsinline preload="metadata" data-auto-demo aria-label="Rope planning from the third-person view">
+                      <source src="assets/planning/rope-third-person.mp4" type="video/mp4" />
+                      Your browser cannot play this video. <a href="assets/planning/rope-third-person.mp4">Download the third-person clip</a>.
+                    </video>
+                    <figcaption>Third-person view</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+            <div class="application-copy">
+              <p class="application-label">Model-based motion planning · Main + supplement</p>
+              <p class="application-stat">26×</p>
+              <h3>faster rope predictive control</h3>
+              <p>
+                The supplement shows cloth and rope plans from both robot and third-person views. Parallel rollouts reduce the wall time of PhysTwin-based model predictive control; the paper also reports more than 16× for cloth without self-collision and an estimated greater-than-2,000× speedup with self-collision enabled.
+              </p>
+              <a class="text-link" href="assets/Boba_ECCV.pdf" target="_blank" rel="noreferrer">Read the application study <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+
+          <div class="supplemental-apps">
+            <figure class="supplemental-app-card">
+              <div class="supplemental-app-media mpc-media">
+                <img
+                  src="assets/images/mpc-accuracy.png"
+                  width="963"
+                  height="812"
+                  loading="lazy"
+                  alt="MPC rollout target Chamfer Distance plotted against planning time for Boba and PhysTwin."
+                />
+              </div>
+              <figcaption>
+                <p class="application-label">MPC accuracy · Supplement</p>
+                <h3>More rollouts without losing planning accuracy.</h3>
+                <p>Boba matches full-PhysTwin rollout target CD in substantially less planning time; under the same time budget, PhysTwin evaluates fewer rollouts and yields higher target error.</p>
+              </figcaption>
+            </figure>
+
+            <figure class="supplemental-app-card rl-card">
+              <div class="supplemental-app-media rl-media">
+                <img
+                  src="assets/images/rl-training.png"
+                  width="2512"
+                  height="695"
+                  loading="lazy"
+                  alt="PPO reinforcement-learning plots showing wall-clock interactions, reward, and success for Boba and PhysTwin on rope reaching."
+                />
+              </div>
+              <figcaption>
+                <p class="application-label">RL training · Supplement</p>
+                <h3>Higher-throughput learning from the same task.</h3>
+                <p>Under identical PPO settings, Boba produces more interactions per wall-clock time and reaches higher reward and success earlier on the rope-reaching task.</p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section namesake-section shell" aria-labelledby="namesake-title">
+        <article class="namesake-card">
+          <figure class="namesake-visual">
+            <img
+              src="assets/images/boba-original-crop.jpg"
+              width="2800"
+              height="2800"
+              loading="lazy"
+              alt="Boba, Yihan's cat, resting in a woven basket with one paw stretched downward."
+            />
+          </figure>
+          <div class="namesake-copy">
+            <p class="section-kicker">Meet Boba</p>
+            <h2 id="namesake-title">The cat behind the name.</h2>
+            <p>
+              Boba is Yihan’s cat and has supervised him throughout this project.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section class="section resources-section shell" id="citation">
+        <div class="section-heading">
+          <p class="section-kicker">Resources</p>
+          <h2>Paper, implementation, and citation.</h2>
+        </div>
+
+        <div class="resource-cards">
+          <a class="resource-card" href="assets/Boba_ECCV.pdf" target="_blank" rel="noreferrer">
+            <span class="resource-icon" aria-hidden="true">PDF</span>
+            <span><strong>Accepted paper</strong><small>33 pages · PDF</small></span>
+            <span class="resource-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a
+            class="resource-card"
+            href="https://github.com/jianxiapyh/Boba/tree/Boba_Batched"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span class="resource-icon code-icon" aria-hidden="true">&lt;/&gt;</span>
+            <span><strong>Boba-Batched source code</strong><small>External GitHub repository</small></span>
+            <span class="resource-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <div class="citation-card">
+          <div class="citation-heading">
+            <div>
+              <p class="section-kicker">BibTeX</p>
+              <h3>Cite Boba</h3>
+            </div>
+            <button class="copy-button" type="button" data-copy-button>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8h11v11H8zM5 16H4V4h12v1" /></svg>
+              <span data-copy-label>Copy</span>
+            </button>
+          </div>
+          <pre><code id="bibtex">@inproceedings{pang2026boba,
+  title     = {Boba: Batched Simulation for Physics-Based Gaussian Digital Twins},
+  author    = {Pang, Yihan and Jiang, Hanxiao and Kondguli, Sushant and
+               Adve, Sarita and Wang, Shenlong},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2026}
+}</code></pre>
+        </div>
+
+        <p class="metric-note">
+          * The greater-than-2,000× cloth result is an estimate reported for matched self-collision; see the paper for protocol and qualification.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <div>
+          <a class="brand footer-brand" href="#top">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span>Boba</span>
+          </a>
+          <p>Batched simulation for physics-based Gaussian digital twins.</p>
+        </div>
+        <p>ECCV 2026 · University of Illinois Urbana-Champaign</p>
+      </div>
+    </footer>
+
+    <dialog
+      class="image-lightbox"
+      id="figure-lightbox"
+      aria-labelledby="lightbox-title"
+      aria-describedby="lightbox-caption"
+      data-image-lightbox
+    >
+      <div class="lightbox-panel">
+        <div class="lightbox-bar">
+          <p id="lightbox-title">Figure preview</p>
+          <button class="lightbox-close" type="button" aria-label="Close figure preview" data-lightbox-close>
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="lightbox-stage" data-lightbox-stage></div>
+        <p class="lightbox-caption" id="lightbox-caption" data-lightbox-caption></p>
+      </div>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
