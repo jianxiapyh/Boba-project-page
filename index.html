@@ -425,7 +425,7 @@
               <h3>Acceleration without abandoning the twin.</h3>
             </div>
             <p>
-              Across reconstructed motion and held-out future prediction, Boba remains visually consistent with real observations and the PhysTwin baseline.
+              Across the full recorded interaction, Boba remains visually consistent with real observations and the PhysTwin baseline.
             </p>
           </div>
           <figure class="paper-figure fidelity-figure fidelity-player" data-fidelity-player>
@@ -433,28 +433,28 @@
               <div class="fidelity-case-field">
                 <label for="fidelity-case">Original benchmark case</label>
                 <select id="fidelity-case" data-fidelity-case aria-describedby="fidelity-case-hint">
-                  <option value="rope_double_hand" data-split-frame="184" data-frame-count="264">Double-hand rope</option>
-                  <option value="double_stretch_zebra" data-split-frame="138" data-frame-count="198">Double stretch — zebra</option>
-                  <option value="double_stretch_sloth" data-split-frame="134" data-frame-count="192">Double stretch — sloth</option>
-                  <option value="single_lift_rope" data-split-frame="35" data-frame-count="50">Single lift — rope</option>
-                  <option value="single_lift_dinosor" data-split-frame="60" data-frame-count="86">Single lift — dinosaur</option>
-                  <option value="weird_package" data-split-frame="27" data-frame-count="39">Package interaction</option>
-                  <option value="single_lift_cloth" data-split-frame="121" data-frame-count="173">Single lift — cloth</option>
-                  <option value="double_lift_zebra" data-split-frame="40" data-frame-count="58">Double lift — zebra</option>
-                  <option value="double_lift_sloth" data-split-frame="43" data-frame-count="62" selected>Double lift — sloth</option>
-                  <option value="single_lift_sloth" data-split-frame="59" data-frame-count="85">Single lift — sloth</option>
-                  <option value="single_lift_zebra" data-split-frame="46" data-frame-count="66">Single lift — zebra</option>
-                  <option value="single_push_rope" data-split-frame="40" data-frame-count="58">Single push — rope</option>
-                  <option value="single_push_sloth" data-split-frame="47" data-frame-count="68">Single push — sloth</option>
-                  <option value="single_lift_cloth_1" data-split-frame="77" data-frame-count="110">Single lift — cloth 1</option>
-                  <option value="single_lift_cloth_3" data-split-frame="109" data-frame-count="156">Single lift — cloth 3</option>
-                  <option value="single_lift_cloth_4" data-split-frame="120" data-frame-count="172">Single lift — cloth 4</option>
-                  <option value="single_push_rope_1" data-split-frame="64" data-frame-count="92">Single push — rope 1</option>
-                  <option value="single_push_rope_4" data-split-frame="58" data-frame-count="83">Single push — rope 4</option>
-                  <option value="double_lift_cloth_3" data-split-frame="82" data-frame-count="118">Double lift — cloth 3</option>
-                  <option value="single_clift_cloth_1" data-split-frame="56" data-frame-count="80">Single corner lift — cloth 1</option>
-                  <option value="single_clift_cloth_3" data-split-frame="67" data-frame-count="97">Single corner lift — cloth 3</option>
-                  <option value="double_lift_cloth_1" data-split-frame="81" data-frame-count="116">Double lift — cloth 1</option>
+                  <option value="rope_double_hand" data-frame-count="264">Double-hand rope</option>
+                  <option value="double_stretch_zebra" data-frame-count="198">Double stretch — zebra</option>
+                  <option value="double_stretch_sloth" data-frame-count="192">Double stretch — sloth</option>
+                  <option value="single_lift_rope" data-frame-count="50">Single lift — rope</option>
+                  <option value="single_lift_dinosor" data-frame-count="86">Single lift — dinosaur</option>
+                  <option value="weird_package" data-frame-count="39">Package interaction</option>
+                  <option value="single_lift_cloth" data-frame-count="173">Single lift — cloth</option>
+                  <option value="double_lift_zebra" data-frame-count="58">Double lift — zebra</option>
+                  <option value="double_lift_sloth" data-frame-count="62" selected>Double lift — sloth</option>
+                  <option value="single_lift_sloth" data-frame-count="85">Single lift — sloth</option>
+                  <option value="single_lift_zebra" data-frame-count="66">Single lift — zebra</option>
+                  <option value="single_push_rope" data-frame-count="58">Single push — rope</option>
+                  <option value="single_push_sloth" data-frame-count="68">Single push — sloth</option>
+                  <option value="single_lift_cloth_1" data-frame-count="110">Single lift — cloth 1</option>
+                  <option value="single_lift_cloth_3" data-frame-count="156">Single lift — cloth 3</option>
+                  <option value="single_lift_cloth_4" data-frame-count="172">Single lift — cloth 4</option>
+                  <option value="single_push_rope_1" data-frame-count="92">Single push — rope 1</option>
+                  <option value="single_push_rope_4" data-frame-count="83">Single push — rope 4</option>
+                  <option value="double_lift_cloth_3" data-frame-count="118">Double lift — cloth 3</option>
+                  <option value="single_clift_cloth_1" data-frame-count="80">Single corner lift — cloth 1</option>
+                  <option value="single_clift_cloth_3" data-frame-count="97">Single corner lift — cloth 3</option>
+                  <option value="double_lift_cloth_1" data-frame-count="116">Double lift — cloth 1</option>
                 </select>
                 <span class="sr-only" id="fidelity-case-hint">Choose one of the 22 cases in the original benchmark.</span>
               </div>
@@ -492,10 +492,6 @@
               </div>
               <div class="fidelity-player-meta">
                 <p class="fidelity-current-case" data-fidelity-current-case>Double lift — sloth</p>
-                <p class="fidelity-phase" data-fidelity-phase aria-live="polite">
-                  <span class="fidelity-phase-dot" aria-hidden="true"></span>
-                  <span data-fidelity-phase-label>Reconstruction &amp; resimulation</span>
-                </p>
                 <button class="fidelity-expand" type="button" data-fidelity-expand>
                   <span aria-hidden="true">↗</span> Open larger
                 </button>
@@ -512,7 +508,7 @@
               />
             </noscript>
             <figcaption id="fidelity-caption">
-              <strong>Qualitative results.</strong> Explore all 22 cases from the original benchmark. Each synchronized clip compares the real observation, PhysTwin, and Boba across reconstruction, resimulation, and the held-out future rollout.
+              <strong>Qualitative results.</strong> Explore all 22 cases from the original benchmark. Each synchronized clip compares the real observation, PhysTwin, and Boba throughout the interaction.
             </figcaption>
           </figure>
         </div>

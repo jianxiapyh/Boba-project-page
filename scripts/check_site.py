@@ -15,28 +15,28 @@ INDEX = ROOT / "index.html"
 EXPECTED_CODE_URL = "https://github.com/jianxiapyh/Boba-Public"
 EXPECTED_FAVICON = "favicon.png"
 FIDELITY_CASES = {
-    "rope_double_hand": (184, 264),
-    "double_stretch_zebra": (138, 198),
-    "double_stretch_sloth": (134, 192),
-    "single_lift_rope": (35, 50),
-    "single_lift_dinosor": (60, 86),
-    "weird_package": (27, 39),
-    "single_lift_cloth": (121, 173),
-    "double_lift_zebra": (40, 58),
-    "double_lift_sloth": (43, 62),
-    "single_lift_sloth": (59, 85),
-    "single_lift_zebra": (46, 66),
-    "single_push_rope": (40, 58),
-    "single_push_sloth": (47, 68),
-    "single_lift_cloth_1": (77, 110),
-    "single_lift_cloth_3": (109, 156),
-    "single_lift_cloth_4": (120, 172),
-    "single_push_rope_1": (64, 92),
-    "single_push_rope_4": (58, 83),
-    "double_lift_cloth_3": (82, 118),
-    "single_clift_cloth_1": (56, 80),
-    "single_clift_cloth_3": (67, 97),
-    "double_lift_cloth_1": (81, 116),
+    "rope_double_hand": 264,
+    "double_stretch_zebra": 198,
+    "double_stretch_sloth": 192,
+    "single_lift_rope": 50,
+    "single_lift_dinosor": 86,
+    "weird_package": 39,
+    "single_lift_cloth": 173,
+    "double_lift_zebra": 58,
+    "double_lift_sloth": 62,
+    "single_lift_sloth": 85,
+    "single_lift_zebra": 66,
+    "single_push_rope": 58,
+    "single_push_sloth": 68,
+    "single_lift_cloth_1": 110,
+    "single_lift_cloth_3": 156,
+    "single_lift_cloth_4": 172,
+    "single_push_rope_1": 92,
+    "single_push_rope_4": 83,
+    "double_lift_cloth_3": 118,
+    "single_clift_cloth_1": 80,
+    "single_clift_cloth_3": 97,
+    "double_lift_cloth_1": 116,
 }
 EXCLUDED_SUPPLEMENTAL_CASES = {
     "cloth_blue_fold",
@@ -226,9 +226,7 @@ def main() -> None:
 
     for option in parser.fidelity_options:
         case_name = option["value"]
-        expected_split, expected_frames = FIDELITY_CASES[case_name]
-        if option.get("data-split-frame") != str(expected_split):
-            fail(f"unexpected reconstruction/future split for {case_name}")
+        expected_frames = FIDELITY_CASES[case_name]
         if option.get("data-frame-count") != str(expected_frames):
             fail(f"unexpected frame count for {case_name}")
 

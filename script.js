@@ -136,28 +136,8 @@ const fidelitySource = fidelityPlayer?.querySelector("[data-fidelity-source]");
 const fidelityFallback = fidelityPlayer?.querySelector("[data-fidelity-fallback]");
 const fidelityCaseIndex = fidelityPlayer?.querySelector("[data-fidelity-case-index]");
 const fidelityCurrentCase = fidelityPlayer?.querySelector("[data-fidelity-current-case]");
-const fidelityPhase = fidelityPlayer?.querySelector("[data-fidelity-phase]");
-const fidelityPhaseLabel = fidelityPlayer?.querySelector("[data-fidelity-phase-label]");
 const fidelityExpand = fidelityPlayer?.querySelector("[data-fidelity-expand]");
 const fidelityOptions = fidelityCase ? [...fidelityCase.options] : [];
-let fidelitySplitTime = 0;
-let fidelityPhaseIsFuture = false;
-
-const setFidelityPhase = (isFuture) => {
-  if (!fidelityPhase || fidelityPhaseIsFuture === isFuture) return;
-  fidelityPhaseIsFuture = isFuture;
-  fidelityPhase.classList.toggle("is-future", isFuture);
-  if (fidelityPhaseLabel) {
-    fidelityPhaseLabel.textContent = isFuture
-      ? "Held-out future prediction"
-      : "Reconstruction & resimulation";
-  }
-};
-
-const updateFidelityPhase = () => {
-  if (!fidelityVideo) return;
-  setFidelityPhase(fidelityVideo.currentTime >= fidelitySplitTime);
-};
 
 const selectFidelityCase = ({ loadVideo = true } = {}) => {
   const option = fidelityCase?.selectedOptions[0];
@@ -168,10 +148,6 @@ const selectFidelityCase = ({ loadVideo = true } = {}) => {
   const videoPath = `assets/fidelity/${caseName}.mp4`;
   const posterPath = `assets/fidelity/posters/${caseName}.jpg`;
   const optionIndex = fidelityOptions.indexOf(option) + 1;
-
-  fidelitySplitTime = Number(option.dataset.splitFrame) / 30;
-  fidelityPhaseIsFuture = true;
-  setFidelityPhase(false);
 
   if (fidelityCaseIndex) fidelityCaseIndex.textContent = String(optionIndex);
   if (fidelityCurrentCase) fidelityCurrentCase.textContent = caseLabel;
@@ -239,8 +215,6 @@ const openFidelityPreview = () => {
 };
 
 fidelityCase?.addEventListener("change", () => selectFidelityCase());
-fidelityVideo?.addEventListener("timeupdate", updateFidelityPhase);
-fidelityVideo?.addEventListener("seeked", updateFidelityPhase);
 fidelityExpand?.addEventListener("click", openFidelityPreview);
 selectFidelityCase({ loadVideo: false });
 
