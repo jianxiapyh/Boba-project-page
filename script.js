@@ -95,9 +95,12 @@ const lightbox = document.querySelector("[data-image-lightbox]");
 const lightboxStage = document.querySelector("[data-lightbox-stage]");
 const lightboxCaption = document.querySelector("[data-lightbox-caption]");
 const lightboxClose = document.querySelector("[data-lightbox-close]");
+const lightboxTitle = document.querySelector("#lightbox-title");
 let activeZoomTrigger = null;
+let pausedForLightbox = null;
 
 const closeLightbox = () => {
+  lightboxStage?.querySelectorAll("video").forEach((video) => video.pause());
   if (lightbox?.open) lightbox.close();
 };
 
@@ -110,6 +113,7 @@ const openLightbox = (sourceImage) => {
   }
 
   activeZoomTrigger = sourceImage;
+  if (lightboxTitle) lightboxTitle.textContent = "Figure preview";
 
   const preview = document.createElement("img");
   preview.src = source;
@@ -124,6 +128,121 @@ const openLightbox = (sourceImage) => {
   document.body.classList.add("lightbox-open");
   lightbox.showModal();
 };
+
+const fidelityPlayer = document.querySelector("[data-fidelity-player]");
+const fidelityCase = fidelityPlayer?.querySelector("[data-fidelity-case]");
+const fidelityVideo = fidelityPlayer?.querySelector("[data-fidelity-video]");
+const fidelitySource = fidelityPlayer?.querySelector("[data-fidelity-source]");
+const fidelityFallback = fidelityPlayer?.querySelector("[data-fidelity-fallback]");
+const fidelityCaseIndex = fidelityPlayer?.querySelector("[data-fidelity-case-index]");
+const fidelityCurrentCase = fidelityPlayer?.querySelector("[data-fidelity-current-case]");
+const fidelityPhase = fidelityPlayer?.querySelector("[data-fidelity-phase]");
+const fidelityPhaseLabel = fidelityPlayer?.querySelector("[data-fidelity-phase-label]");
+const fidelityExpand = fidelityPlayer?.querySelector("[data-fidelity-expand]");
+const fidelityOptions = fidelityCase ? [...fidelityCase.options] : [];
+let fidelitySplitTime = 0;
+let fidelityPhaseIsFuture = false;
+
+const setFidelityPhase = (isFuture) => {
+  if (!fidelityPhase || fidelityPhaseIsFuture === isFuture) return;
+  fidelityPhaseIsFuture = isFuture;
+  fidelityPhase.classList.toggle("is-future", isFuture);
+  if (fidelityPhaseLabel) {
+    fidelityPhaseLabel.textContent = isFuture
+      ? "Held-out future prediction"
+      : "Reconstruction & resimulation";
+  }
+};
+
+const updateFidelityPhase = () => {
+  if (!fidelityVideo) return;
+  setFidelityPhase(fidelityVideo.currentTime >= fidelitySplitTime);
+};
+
+const selectFidelityCase = ({ loadVideo = true } = {}) => {
+  const option = fidelityCase?.selectedOptions[0];
+  if (!option || !fidelityVideo || !fidelitySource) return;
+
+  const caseName = option.value;
+  const caseLabel = option.textContent.trim();
+  const videoPath = `assets/fidelity/${caseName}.mp4`;
+  const posterPath = `assets/fidelity/posters/${caseName}.jpg`;
+  const optionIndex = fidelityOptions.indexOf(option) + 1;
+
+  fidelitySplitTime = Number(option.dataset.splitFrame) / 30;
+  fidelityPhaseIsFuture = true;
+  setFidelityPhase(false);
+
+  if (fidelityCaseIndex) fidelityCaseIndex.textContent = String(optionIndex);
+  if (fidelityCurrentCase) fidelityCurrentCase.textContent = caseLabel;
+  if (fidelityFallback) fidelityFallback.href = videoPath;
+  if (fidelityExpand) fidelityExpand.setAttribute("aria-label", `Open larger comparison for ${caseLabel}`);
+  fidelityVideo.poster = posterPath;
+  fidelityVideo.setAttribute(
+    "aria-label",
+    `${caseLabel} comparison: Observation, PhysTwin, and Boba`,
+  );
+
+  if (!loadVideo) return;
+
+  fidelitySource.src = videoPath;
+  fidelityVideo.load();
+  if (!prefersReducedMotion) fidelityVideo.play().catch(() => {});
+};
+
+const openFidelityPreview = () => {
+  if (!fidelityVideo || !fidelitySource) return;
+
+  const source = fidelitySource.src;
+  const caseLabel = fidelityCurrentCase?.textContent?.trim() || "Selected benchmark case";
+
+  if (!lightbox || !lightboxStage || typeof lightbox.showModal !== "function") {
+    if (typeof fidelityVideo.requestFullscreen === "function") fidelityVideo.requestFullscreen();
+    else window.open(source, "_blank", "noopener");
+    return;
+  }
+
+  activeZoomTrigger = fidelityExpand;
+  pausedForLightbox = fidelityVideo.paused ? null : fidelityVideo;
+  fidelityVideo.pause();
+  if (lightboxTitle) lightboxTitle.textContent = `Qualitative comparison · ${caseLabel}`;
+
+  const comparison = document.createElement("div");
+  comparison.className = "fidelity-modal-comparison";
+  const labels = fidelityPlayer?.querySelector(".fidelity-comparison-labels")?.cloneNode(true);
+  if (labels) comparison.appendChild(labels);
+
+  const preview = document.createElement("video");
+  preview.src = source;
+  preview.poster = fidelityVideo.poster;
+  preview.controls = true;
+  preview.muted = true;
+  preview.loop = true;
+  preview.playsInline = true;
+  preview.preload = "auto";
+  preview.setAttribute("aria-label", fidelityVideo.getAttribute("aria-label") || caseLabel);
+  const resumeTime = fidelityVideo.currentTime;
+  preview.addEventListener(
+    "loadedmetadata",
+    () => {
+      preview.currentTime = Math.min(resumeTime, Math.max(0, preview.duration - 0.05));
+      if (!prefersReducedMotion) preview.play().catch(() => {});
+    },
+    { once: true },
+  );
+  comparison.appendChild(preview);
+
+  lightboxStage.replaceChildren(comparison);
+  lightboxCaption.textContent = `${caseLabel}: synchronized Observation, PhysTwin, and Boba playback.`;
+  document.body.classList.add("lightbox-open");
+  lightbox.showModal();
+};
+
+fidelityCase?.addEventListener("change", () => selectFidelityCase());
+fidelityVideo?.addEventListener("timeupdate", updateFidelityPhase);
+fidelityVideo?.addEventListener("seeked", updateFidelityPhase);
+fidelityExpand?.addEventListener("click", openFidelityPreview);
+selectFidelityCase({ loadVideo: false });
 
 document.querySelectorAll("img[data-zoomable]").forEach((image) => {
   image.tabIndex = 0;
@@ -148,7 +267,10 @@ lightbox?.addEventListener("click", (event) => {
 
 lightbox?.addEventListener("close", () => {
   document.body.classList.remove("lightbox-open");
+  lightboxStage?.querySelectorAll("video").forEach((video) => video.pause());
   lightboxStage?.replaceChildren();
   activeZoomTrigger?.focus();
   activeZoomTrigger = null;
+  if (pausedForLightbox && !prefersReducedMotion) pausedForLightbox.play().catch(() => {});
+  pausedForLightbox = null;
 });
