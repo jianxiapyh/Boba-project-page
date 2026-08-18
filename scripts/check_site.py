@@ -36,7 +36,6 @@ FIDELITY_CASES = {
     "single_clift_cloth_1": 80,
     "single_clift_cloth_3": 97,
     "double_lift_cloth_1": 116,
-    "weird_package": 39,
 }
 EXCLUDED_SUPPLEMENTAL_CASES = {
     "cloth_blue_fold",
