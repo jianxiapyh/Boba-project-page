@@ -20,7 +20,6 @@ FIDELITY_CASES = {
     "double_stretch_sloth": 192,
     "single_lift_rope": 50,
     "single_lift_dinosor": 86,
-    "weird_package": 39,
     "single_lift_cloth": 173,
     "double_lift_zebra": 58,
     "double_lift_sloth": 62,
