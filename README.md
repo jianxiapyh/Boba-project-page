@@ -40,7 +40,7 @@ https://jianxiapyh.github.io/Boba-project-page/
 - Displayed paper figures are the exact camera-ready PNGs copied from the local main-paper and supplemental Overleaf workspaces.
 - Supplemental Fig. 8 is included before the Results section as `assets/images/deployment-variants.png`.
 - Applications cover main-paper robot planning plus supplemental MPC accuracy, immersive XR, and RL training.
-- The 62.8-second H.264 XR demonstration is stored as `assets/Boba_3D_demo.mp4` and loaded with metadata-only preload.
+- The 55.2-second H.264 XR demonstration is stored as `assets/Boba_3D_demo.mp4` and loaded with metadata-only preload; its opening frame is the “Boba Immersive Demo” card.
 - `assets/images/boba-original-crop.jpg` is a square crop of the author-provided original photograph of Boba, Yihan’s cat.
 - Social preview: `assets/images/social-preview.jpg` (1200 × 630)
 
