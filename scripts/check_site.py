@@ -15,7 +15,9 @@ INDEX = ROOT / "index.html"
 EXPECTED_CODE_URL = "https://github.com/jianxiapyh/Boba-Public"
 EXPECTED_DEMO_URLS = {
     "https://github.com/jianxiapyh/Boba-Demo/tree/Boba-Immersive-Demo-Quest",
+    "https://github.com/jianxiapyh/Boba-Demo/blob/Boba-Immersive-Demo-Quest/README.md",
     "https://github.com/jianxiapyh/Boba-Demo/tree/Boba-Phone-Demo",
+    "https://github.com/jianxiapyh/Boba-Demo/blob/Boba-Phone-Demo/README.md",
 }
 EXPECTED_FAVICON = "favicon.png"
 FIDELITY_CASES = {
