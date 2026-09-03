@@ -5,7 +5,7 @@ Static project website for the ECCV 2026 paper:
 > **Boba: Batched Simulation for Physics-Based Gaussian Digital Twins**<br />
 > Yihan Pang, Hanxiao Jiang, Sushant Kondguli, Sarita Adve, and Shenlong Wang
 
-The site is designed for GitHub Pages and uses plain HTML, CSS, and JavaScript. It does not bundle the Boba implementation. The implementation link points to the external [`Boba-Public`](https://github.com/jianxiapyh/Boba-Public) repository, which provides the `Boba_Batched` and `PhysTwin` branches. Each runnable demo card provides separate **Code** and **Quick Start** links for the [`Boba-Immersive-Demo-Quest`](https://github.com/jianxiapyh/Boba-Demo/tree/Boba-Immersive-Demo-Quest) and [`Boba-Phone-Demo`](https://github.com/jianxiapyh/Boba-Demo/tree/Boba-Phone-Demo) branches.
+The site is designed for GitHub Pages and uses plain HTML, CSS, and JavaScript. It does not bundle the Boba implementation. The implementation link points to the external [`Boba-Public`](https://github.com/jianxiapyh/Boba-Public) repository, which provides the `Boba_Batched` and `PhysTwin` branches. Each runnable demo card provides a **Code** link to its branch and a **Quick Start** link that renders the branch's copy-friendly HTML operator guide for [`Boba-Immersive-Demo-Quest`](https://github.com/jianxiapyh/Boba-Demo/tree/Boba-Immersive-Demo-Quest) and [`Boba-Phone-Demo`](https://github.com/jianxiapyh/Boba-Demo/tree/Boba-Phone-Demo).
 
 ## Local preview
 
