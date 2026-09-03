@@ -13,6 +13,10 @@ from urllib.parse import unquote, urlparse
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "index.html"
 EXPECTED_CODE_URL = "https://github.com/jianxiapyh/Boba-Public"
+EXPECTED_DEMO_URLS = {
+    "https://github.com/jianxiapyh/Boba-Demo/tree/Boba-Immersive-Demo-Quest",
+    "https://github.com/jianxiapyh/Boba-Demo/tree/Boba-Phone-Demo",
+}
 EXPECTED_FAVICON = "favicon.png"
 FIDELITY_CASES = {
     "rope_double_hand": 264,
@@ -265,8 +269,12 @@ def main() -> None:
         if not video_path.is_file() or video_path.read_bytes()[4:8] != b"ftyp":
             fail(f"demo video is not a valid MP4 file: {source}")
 
-    if set(parser.github_links) != {EXPECTED_CODE_URL}:
+    expected_github_links = {EXPECTED_CODE_URL, *EXPECTED_DEMO_URLS}
+    if set(parser.github_links) != expected_github_links:
         fail(f"unexpected GitHub link(s): {sorted(set(parser.github_links))}")
+    for demo_url in EXPECTED_DEMO_URLS:
+        if parser.github_links.count(demo_url) != 1:
+            fail(f"expected exactly one demo branch link: {demo_url}")
 
     if len(parser.json_ld_blocks) != 1:
         fail("expected exactly one JSON-LD block")

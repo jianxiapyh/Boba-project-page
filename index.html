@@ -88,6 +88,7 @@
           <a href="#deployments">Deployments</a>
           <a href="#results">Results</a>
           <a href="#applications">Applications</a>
+          <a href="#demos">Demos</a>
           <a href="#citation">Citation</a>
           <a class="nav-paper" href="assets/Boba_ECCV.pdf" target="_blank" rel="noreferrer">Paper</a>
         </div>
@@ -122,7 +123,7 @@
               Boba co-designs physics, Gaussian deformation, and rendering for batched execution—turning one reconstructed deformable object into many independent, high-fidelity simulation rollouts.
             </p>
 
-            <div class="hero-actions" aria-label="Paper resources">
+            <div class="hero-actions" aria-label="Project resources">
               <a class="button button-primary" href="assets/Boba_ECCV.pdf" target="_blank" rel="noreferrer">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l4 4v16H6zM14 2v5h5M9 13h6M9 17h6" /></svg>
                 Paper
@@ -135,6 +136,10 @@
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18c-4.5 1.4-4.5-2.3-6.3-2.8m12.6 5.6v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.7-1.4 5.7-6.2A4.8 4.8 0 0 0 19.2 6a4.5 4.5 0 0 0-.1-3.1s-1-.3-3.3 1.2a11.5 11.5 0 0 0-6 0C7.5 2.6 6.5 2.9 6.5 2.9A4.5 4.5 0 0 0 6.4 6a4.8 4.8 0 0 0-1.3 3.3c0 4.8 2.9 5.9 5.7 6.2-.4.4-.7.8-.8 1.5v3.8" /></svg>
                 Source Code
+              </a>
+              <a class="button button-quiet" href="#demos">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8h10a4 4 0 0 1 3.8 5.3l-1.3 3.9a2 2 0 0 1-3.2.9L14 16h-4l-2.3 2.1a2 2 0 0 1-3.2-.9l-1.3-3.9A4 4 0 0 1 7 8ZM8 11v4M6 13h4M16.5 12.5h.01M18.5 14.5h.01" /></svg>
+                Demos
               </a>
               <a class="button button-quiet" href="#citation">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5H4v14h12v-4M9 15l11-11M14 4h6v6" /></svg>
@@ -661,6 +666,58 @@
                 <p>Under identical PPO settings, Boba produces more interactions per wall-clock time and reaches higher reward and success earlier on the rope-reaching task.</p>
               </figcaption>
             </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section demo-release-section" id="demos">
+        <div class="shell">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="section-kicker">Runnable demos</p>
+              <h2>Experience Boba in XR or from a phone.</h2>
+            </div>
+            <p>
+              Two maintained branches package Boba as complete interactive demonstrations. Each branch includes setup instructions and an on-site operator guide.
+            </p>
+          </div>
+
+          <div class="demo-release-grid">
+            <a
+              class="demo-release-card demo-release-immersive"
+              href="https://github.com/jianxiapyh/Boba-Demo/tree/Boba-Immersive-Demo-Quest"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="demo-release-topline">
+                <span class="demo-release-platform">Quest 3 · OpenXR</span>
+                <span class="demo-release-arrow" aria-hidden="true">↗</span>
+              </span>
+              <span class="demo-release-icon" aria-hidden="true">XR</span>
+              <strong>Immersive Demo</strong>
+              <span class="demo-release-description">
+                Manipulate Rope and Sloth inside the mesh Lab or Gaussian Ambulance scene with tracked headset and controller interaction.
+              </span>
+              <span class="demo-release-branch"><code>Boba-Immersive-Demo-Quest</code> branch</span>
+            </a>
+
+            <a
+              class="demo-release-card demo-release-phone"
+              href="https://github.com/jianxiapyh/Boba-Demo/tree/Boba-Phone-Demo"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="demo-release-topline">
+                <span class="demo-release-platform">Browser phone control</span>
+                <span class="demo-release-arrow" aria-hidden="true">↗</span>
+              </span>
+              <span class="demo-release-icon" aria-hidden="true">100×</span>
+              <strong>Phone Demo</strong>
+              <span class="demo-release-description">
+                Run 100 batched sessions on one workstation, then claim and control an individual simulation from a phone using a QR code.
+              </span>
+              <span class="demo-release-branch"><code>Boba-Phone-Demo</code> branch</span>
+            </a>
           </div>
         </div>
       </section>
